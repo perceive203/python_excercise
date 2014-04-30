@@ -1,13 +1,15 @@
 #! /usr/bin/env python2.7
+# encoding:utf-8
 
 """ quicksort 的测试
 """
 
 import unittest
+import random
 from quicksort import QuickSort
 
 
-class TestQuickSort(unittest):
+class TestQuickSort(unittest.TestCase):
     """ quicksort 的测试用例
     """
 
@@ -18,7 +20,31 @@ class TestQuickSort(unittest):
         self.qs = None
 
     def testCommon(self):
-        # 构造测试数据先
-        data = (2, 4, 1, 3)
-        self.qs = QuickSort(data)
-        assert qs.sort() == [1, 2, 3, 4]
+        assert self.qs.sort((2, 4, 1, 3)) == [1, 2, 3, 4]
+
+    def testBoundary(self):
+        assert self.qs.sort(()) == []
+
+    def testSingle(self):
+        assert self.qs.sort((1,)) == [1,]
+
+    def testEqu(self):
+        assert self.qs.sort((1, 1)) == [1, 1]
+
+    def testNeg(self):
+        assert self.qs.sort((1, -1)) == [-1, 1]
+
+    def testRandom(self):
+        data = list()
+
+        for i in range(1, 100):
+            data.append(random.randint(1, 10000))
+
+        qdata = data[:]
+        data.sort()
+
+        assert self.qs.sort(tuple(qdata)) == data
+
+
+if __name__ == "__main__":
+    unittest.main()

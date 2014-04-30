@@ -1,4 +1,5 @@
 #! /usr/bin/env python2.7
+# encoding=utf-8
 
 """ 快速排序的练习程序
 """
@@ -8,13 +9,13 @@ class QuickSort(object):
     """
 
     def __init__(self, data = ()):
-        if data: self.data = list(data)
+        self.data = list(data)
 
-    def sort(data = ()):
+    def sort(self, data = ()):
         """ 实际排序
             Args:
                 data: 调用者可以给出需要排序的数列，如果为空则默认在对象实例初始化
-                    之时已经给出了输入数列
+                    之时已经给出了输入数列；数据格式为 tuple
 
             Returns:
                 返回排好序的结果，list 数据格式
@@ -27,8 +28,51 @@ class QuickSort(object):
             self.data = None    # 置空之前的数列
             self.data = list(data)
 
-        if self.data.count() == 0:
-            raise IOError
-
-        # TODO: TDD 先
+        self._sort(0, len(self.data)-1)
         
+        return self.data
+
+    def _sort(self, b, e):
+        """ 对 self.data 数列的 range 进行排序 [b, e]
+            Args: 
+                b: Range 的起始位置
+                e: Range 的终止位置
+            
+            Returns:
+                Nothing
+        """ 
+
+        if e <= b: return
+
+        cb = b # 保存首位坐标
+        ce = e
+        m = self._select_m(b, e)
+
+        while cb < ce:
+            while cb < ce and self.data[cb] <= self.data[m]: cb += 1
+
+            if cb <= ce and self.data[cb] > self.data[m]:
+                self._swap(cb, m)
+                m = cb
+
+            while cb < ce and self.data[m] <= self.data[ce]: ce -= 1
+
+            if cb <= ce and self.data[ce] < self.data[m]:
+                self._swap(m, ce)
+                m = ce
+
+        self._sort(b, m-1)
+        self._sort(m+1, e)
+ 
+    def _swap(self, i, j):
+        tmp = self.data[i]
+        self.data[i] = self.data[j]
+        self.data[j] = tmp
+
+    def _select_m(self, b, e):
+        # TODO: 暂时选择中间位置，之后可以试探性选择，性能优化
+
+        assert b <= e
+
+        return b+(e-b)/2  # 之所以不使用 (e+b)/2 为了防止加法溢出
+
