@@ -42,28 +42,49 @@ class QuickSort(object):
                 Nothing
         """ 
 
+
         if e <= b: return
 
-        cb = b # 保存首位坐标
-        ce = e
         m = self._select_m(b, e)
+        
+        # print "before range:   list=", self.data[b:e+1], ", b=%d, e=%d, m=%d" % (b, e, m)
 
-        while cb < ce:
-            while cb < ce and self.data[cb] <= self.data[m]: cb += 1
+        m = self._sort_range(b, e, m)
 
-            if cb <= ce and self.data[cb] > self.data[m]:
-                self._swap(cb, m)
-                m = cb
-
-            while cb < ce and self.data[m] <= self.data[ce]: ce -= 1
-
-            if cb <= ce and self.data[ce] < self.data[m]:
-                self._swap(m, ce)
-                m = ce
+        # print "after range:   list=", self.data[b:e+1], ", b=%d, e=%d, m=%d" % (b, e, m)
 
         self._sort(b, m-1)
         self._sort(m+1, e)
  
+    def _sort_range(self, b, e, m):
+
+        assert b <= m <= e
+
+        # print "list=", self.data, ", b=%d, e=%d, m=%d" % (b, e, m)
+
+        n = self.data[m]
+
+        while b < e:
+            # e 从右向左找到第一个比 m 小的值
+            while b < e and self.data[m] <= self.data[e]: e -= 1
+
+            if b < e:
+                self._swap(e, m)
+                m = e
+
+            # b 从左向右找到第一个比 m 大的值
+            while b < e and self.data[b] <= self.data[m]: b += 1
+
+            if b < e:
+                self._swap(b, m)
+                m = b
+            
+            # print "b:   list=", self.data, ", b=%d, e=%d, m=%d" % (b, e, m)
+
+            # print "e:   list=", self.data, ", b=%d, e=%d, m=%d" % (b, e, m)
+
+        return m
+
     def _swap(self, i, j):
         tmp = self.data[i]
         self.data[i] = self.data[j]
@@ -74,5 +95,11 @@ class QuickSort(object):
 
         assert b <= e
 
-        return b+(e-b)/2  # 之所以不使用 (e+b)/2 为了防止加法溢出
+        # return b+(e-b)/2  # 之所以不使用 (e+b)/2 为了防止加法溢出
+        return b
 
+
+if __name__ == "__main__":
+    a = QuickSort()
+    a.sort((12, 45, 2, 1, 0,234, 64, 65, 23, 4, 2))
+    print a.data

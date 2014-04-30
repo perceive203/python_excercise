@@ -37,7 +37,7 @@ class TestQuickSort(unittest.TestCase):
     def testRandom(self):
         data = list()
 
-        for i in range(1, 100):
+        for i in range(1, 1000):
             data.append(random.randint(1, 10000))
 
         qdata = data[:]
