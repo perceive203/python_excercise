@@ -4,6 +4,9 @@
 """ 快速排序的练习程序
 """
 
+import sys
+import getopt
+
 class QuickSort(object):
     """ 快速排序类
     """
@@ -45,9 +48,9 @@ class QuickSort(object):
 
         if e <= b: return
 
-        m = self._select_m(b, e)
+        m = self._select_m(b, e) # 选择一个轴
         
-        # print "before range:   list=", self.data[b:e+1], ", b=%d, e=%d, m=%d" % (b, e, m)
+        self._dprint("before range:   list=", self.data[b:e+1], ", b=%d, e=%d, m=%d" % (b, e, m))
 
         m = self._sort_range(b, e, m)
 
@@ -98,8 +101,23 @@ class QuickSort(object):
         # return b+(e-b)/2  # 之所以不使用 (e+b)/2 为了防止加法溢出
         return b
 
+    def _dprint(self, *p):
+        if(_DEBUG): print p
+
 
 if __name__ == "__main__":
-    a = QuickSort()
-    a.sort([12, 45, 2, 1, 0,234, 64, 65, 23, 4, 2])
+    _DEBUG = False
+    data = list()
+
+    # 读入命令行参数
+    opts, args = getopt.getopt(sys.argv[1:], "di:")
+    for op, value in opts:
+        if op == "-d": _DEBUG = True
+        if op == "-i":
+            data = value.split()
+            data = [int(i) for i in data]
+
+    a = QuickSort(data)
+    a.sort()
+
     print a.data
