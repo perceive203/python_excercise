@@ -8,10 +8,10 @@ class QuickSort(object):
     """ 快速排序类
     """
 
-    def __init__(self, data = ()):
+    def __init__(self, data = []):
         self.data = list(data)
 
-    def sort(self, data = ()):
+    def sort(self, data = []):
         """ 实际排序
             Args:
                 data: 调用者可以给出需要排序的数列，如果为空则默认在对象实例初始化
@@ -101,5 +101,5 @@ class QuickSort(object):
 
 if __name__ == "__main__":
     a = QuickSort()
-    a.sort((12, 45, 2, 1, 0,234, 64, 65, 23, 4, 2))
+    a.sort([12, 45, 2, 1, 0,234, 64, 65, 23, 4, 2])
     print a.data
