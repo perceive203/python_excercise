@@ -35,10 +35,7 @@ class TestQuickSort(unittest.TestCase):
         assert self.qs.sort([1, -1]) == [-1, 1]
 
     def testRandom(self):
-        data = list()
-
-        for i in range(1, 1000):
-            data.append(random.randint(1, 10000))
+        data = [random.randint(1,1000) for i in range(1,1000)]
 
         qdata = data[:]
         data.sort()
