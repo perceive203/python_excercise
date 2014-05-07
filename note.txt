@@ -18,3 +18,4 @@
         if i > 5: a.remove(i)
 -   lambda 函数：map(lambda x: x**2, range(10))
 -   python 中的 print 调试语句，无法在缩进格式上区隔于正常的代码，感觉不方便啊：可以定义一个函数，内部判断一个宏定义再输出调试信息
+-   python 的代码确实可以很简洁

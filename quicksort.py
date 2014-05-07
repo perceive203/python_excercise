@@ -38,8 +38,8 @@ class QuickSort(object):
     def _sort(self, b, e):
         """ 对 self.data 数列的 range 进行排序 [b, e]
             Args: 
-                b: Range 的起始位置
-                e: Range 的终止位置
+                b: Range 的起始位置 begin
+                e: Range 的终止位置 end
             
             Returns:
                 Nothing
@@ -63,28 +63,22 @@ class QuickSort(object):
 
         assert b <= m <= e
 
-        # print "list=", self.data, ", b=%d, e=%d, m=%d" % (b, e, m)
-
         n = self.data[m]
 
         while b < e:
             # e 从右向左找到第一个比 m 小的值
-            while b < e and self.data[m] <= self.data[e]: e -= 1
+            while m < e and self.data[m] <= self.data[e]: e -= 1
 
-            if b < e:
+            if m < e:
                 self._swap(e, m)
                 m = e
 
             # b 从左向右找到第一个比 m 大的值
-            while b < e and self.data[b] <= self.data[m]: b += 1
+            while b < m and self.data[b] <= self.data[m]: b += 1
 
-            if b < e:
+            if b < m:
                 self._swap(b, m)
                 m = b
-            
-            # print "b:   list=", self.data, ", b=%d, e=%d, m=%d" % (b, e, m)
-
-            # print "e:   list=", self.data, ", b=%d, e=%d, m=%d" % (b, e, m)
 
         return m
 
@@ -98,26 +92,31 @@ class QuickSort(object):
 
         assert b <= e
 
-        # return b+(e-b)/2  # 之所以不使用 (e+b)/2 为了防止加法溢出
-        return b
+        return b+(e-b)/2  # 之所以不使用 (e+b)/2 为了防止加法溢出
 
     def _dprint(self, *p):
-        if(_DEBUG): print p
+        global _DEBUG
+
+        try:
+            type(_DEBUG)
+        except:
+            _DEBUG = False
+
+        if _DEBUG: print p
 
 
 if __name__ == "__main__":
+
+    # 参数初始化
+    global _DEBUG
     _DEBUG = False
+
     data = list()
 
     # 读入命令行参数
     opts, args = getopt.getopt(sys.argv[1:], "di:")
     for op, value in opts:
         if op == "-d": _DEBUG = True
-        if op == "-i":
-            data = value.split()
-            data = [int(i) for i in data]
+        if op == "-i": data = [int(i) for i in value.split()]
 
-    a = QuickSort(data)
-    a.sort()
-
-    print a.data
+    print QuickSort(data).sort()
