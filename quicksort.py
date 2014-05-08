@@ -74,7 +74,7 @@ class QuickSort(object):
                 end -= 1
 
             if axle < end:
-                self._swap(end, axle)
+                self.data[end], self.data[axle] = self.data[axle], self.data[end]
                 axle = end
 
             # b 从左向右找到第一个比 m 大的值
@@ -82,17 +82,10 @@ class QuickSort(object):
                 begin += 1
 
             if begin < axle:
-                self._swap(begin, axle)
+                self.data[begin], self.data[axle] = self.data[axle], self.data[begin]
                 axle = begin
 
         return axle
-
-    def _swap(self, src, dst):
-        """ 交换 self.data[src] 与 self.data[dst] 的值
-        """
-        tmp = self.data[src]
-        self.data[src] = self.data[dst]
-        self.data[dst] = tmp
 
     @staticmethod
     def _select_axle(begin, end):
@@ -122,19 +115,24 @@ class QuickSort(object):
 if __name__ == "__main__":
 
     # 参数初始化
-    global _DEBUG
-    _DEBUG = False
+    global _DEBUG, _TRACE
+    _DEBUG = _TRACE = False
 
     DATA = list()
 
     # 读入命令行参数
-    OPTS, ARGS = getopt.getopt(sys.argv[1:], "di:")
+    OPTS, ARGS = getopt.getopt(sys.argv[1:], "di:t")
 
     for op, value in OPTS:
         if op == "-d":
             _DEBUG = True
-
         if op == "-i":
             DATA = [int(i) for i in value.split()]
+        if op == "-t":
+            _TRACE = True
+
+    if _TRACE:
+        import pdb
+        pdb.set_trace()
 
     print QuickSort(DATA).sort()

@@ -6,9 +6,14 @@
     -   单元测试框架
         -   pyunit 能够自动执行测试类中所有以 test 打头的测试方法，这是怎么作到的，使用反射么，有空要学习一下 pyunit 的源码
     -   使用 pylint 作为编码规范检查工具，好玩
+    -   语言对错误处理的支持，异常处理
     -   代码调试方法，单步调试工具
-    -   代码性能剖析工具
+    -   代码性能剖析工具 profile
     -   相同功能使用 C 再实现一遍，对比一下语言的效率
+    -   看一个公认写的好的代码
+    -   做一套此语言的面试题
+    -   做一个 C 语言的扩展
+    -   看下 python 一个模块的源码
 -	在编码规范上，语句行的结尾不用分号结尾，要习惯
 -   编辑 root 权限的文件，保存时用 :w !sudo tee % 来强制保存
 -   对象的赋值，一定要高清楚是引用还是复制
@@ -19,4 +24,6 @@
 -   lambda 函数：map(lambda x: x**2, range(10))
 -   python 中的 print 调试语句，无法在缩进格式上区隔于正常的代码，感觉不方便啊：可以定义一个函数，内部判断一个宏定义再输出调试信息
 -   python 的代码确实可以很简洁
--   这个例子不理解是为什么：http://satyajit.ranjeev.in/2012/01/12/python--dangerous-default-value-as-argument.html
+-   这个例子不理解是为什么：http://satyajit.ranjeev.in/2012/01/12/python--dangerous-default-value-as-argument.html : Got it! 原因在于变量 x 被重新赋了值，所以解除了对默认值的引用，变成一个局部变量了
+-   python -c "Command String"
+-   看起来 Exception 无法捕获 SyntaxError 错误，但可以捕获 TypeError 等运行时错误
