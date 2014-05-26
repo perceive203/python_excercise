@@ -7,13 +7,14 @@
         -   pyunit 能够自动执行测试类中所有以 test 打头的测试方法，这是怎么作到的，使用反射么，有空要学习一下 pyunit 的源码
     -   使用 pylint 作为编码规范检查工具，好玩
     -   语言对错误处理的支持，异常处理
-    -   代码调试方法，单步调试工具
-    -   代码性能剖析工具 profile
+    -   代码调试方法，单步调试工具: pdb
+    -   代码性能剖析工具 profile: cProfile
     -   相同功能使用 C 再实现一遍，对比一下语言的效率
     -   看一个公认写的好的代码
     -   做一套此语言的面试题
     -   做一个 C 语言的扩展
     -   看下 python 一个模块的源码
+    -   语言的多线程模型
 -	在编码规范上，语句行的结尾不用分号结尾，要习惯
 -   编辑 root 权限的文件，保存时用 :w !sudo tee % 来强制保存
 -   对象的赋值，一定要高清楚是引用还是复制
@@ -27,3 +28,29 @@
 -   这个例子不理解是为什么：http://satyajit.ranjeev.in/2012/01/12/python--dangerous-default-value-as-argument.html : Got it! 原因在于变量 x 被重新赋了值，所以解除了对默认值的引用，变成一个局部变量了
 -   python -c "Command String"
 -   看起来 Exception 无法捕获 SyntaxError 错误，但可以捕获 TypeError 等运行时错误
+-   yield 的生成器很有意思，但这种方式是线程安全的么？
+-   异常捕获的顺序也取决于不同异常类的继承关系，这个容易引起错误
+-   class 中的函数不能同名，否则后定义的会覆盖先定义的，不像 C++ 中可以通过参数类型和个数不同定义
+-   python 逆向工具 uncompyle2 的效果相当好啊，怎么做到的呢？
+-   class 中的 method __getattr__ 可以拦截对未定义的成员变量的访问；如果类型继承自 object，我们可以使用 __getattribute__ 来拦截所有(包括不存在的成员)的获取操作
+-   urllib2 模块参考
+    -   urllib2 模块没有体现 python 的简洁的设计原则，实现一个功能有 N 种方法，感觉有点混乱，当然，可能我对这个库的理解还太少
+    -   确实严格遵守了每行不超过 80 个字符的规则
+    -   可能 httplib 是我更想看的源码
+    -   importError 可以捕获 import 的异常，也许是兼容不同 python 与不同环境的好方法
+    -   cPickle、cStringIO 等使用 c 语言实现的模块：命名规范
+    -   为何在模块中定义了好多全局变量呢？
+    -   import sys ... del sys
+    -   在函数里的 import 的作用范围也仅在这个函数内部
+    -   注释中的“# XXX ”的意思好像是以下这几个函数都符合这个注释
+    -   类中的私有成员变量都是双下划线开头
+    -   python 访问局部变量和全局变量的规则：当搜索一个变量的时候，先从局部作用域开始搜索，如果在局部作用域没有找到那个变量，就在全局变量中找这个变量，如果找不到抛出异常(NAMEERROR 或者 Unbound-LocalError，这取决于python 版本)。如果内部函数有引用外部函数的同名变量或者全局变量，并且对这个变量有修改.那么会认为它是一个局部变量：这个规则太奇怪了，是局部还是全局变量取决于不同的用法！不知道 3.X 版本是否有改进
+    -   支持动态函数调用：
+        func = getattr(object, method_name)
+        func(argv)
+    -   应该在模块开头清晰简洁的描述一下 opener、direcotor、handler 等概念及其之间的关系
+    -   在函数内部定义函数
+    -   实现中有太多的 magic number
+    -   assert BOOL_EXPRESSION, PROMPT_IF_FAIL
+    -   headers.update(dict((k, v) for k, v in req.headers.items() if k not in headers))
+    -   res = possible_value1 or possible_value2: 条件表达式的结果是计算的最后一个条件表达式的值
