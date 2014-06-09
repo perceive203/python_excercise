@@ -33,6 +33,7 @@
 -   class 中的函数不能同名，否则后定义的会覆盖先定义的，不像 C++ 中可以通过参数类型和个数不同定义
 -   python 逆向工具 uncompyle2 的效果相当好啊，怎么做到的呢？
 -   class 中的 method __getattr__ 可以拦截对未定义的成员变量的访问；如果类型继承自 object，我们可以使用 __getattribute__ 来拦截所有(包括不存在的成员)的获取操作
+-   vim + xxd 进行二进制文件的编辑：":%!xxd"
 -   urllib2 模块参考
     -   urllib2 模块没有体现 python 的简洁的设计原则，实现一个功能有 N 种方法，感觉有点混乱，当然，可能我对这个库的理解还太少
     -   确实严格遵守了每行不超过 80 个字符的规则
@@ -44,7 +45,7 @@
     -   在函数里的 import 的作用范围也仅在这个函数内部
     -   注释中的“# XXX ”的意思好像是以下这几个函数都符合这个注释
     -   类中的私有成员变量都是双下划线开头
-    -   python 访问局部变量和全局变量的规则：当搜索一个变量的时候，先从局部作用域开始搜索，如果在局部作用域没有找到那个变量，就在全局变量中找这个变量，如果找不到抛出异常(NAMEERROR 或者 Unbound-LocalError，这取决于python 版本)。如果内部函数有引用外部函数的同名变量或者全局变量，并且对这个变量有修改.那么会认为它是一个局部变量：这个规则太奇怪了，是局部还是全局变量取决于不同的用法！不知道 3.X 版本是否有改进
+    -   python 访问局部变量和全局变量的规则：当搜索一个变量的时候，先从局部作用域开始搜索，如果在局部作用域没有找到那个变量，就在全局变量中找这个变量，如果找不到抛出异常(NAMEERROR 或者 Unbound-LocalError，这取决于python 版本)。如果内部函数有引用外部函数的同名变量或者全局变量，并且对这个变量有修改.那么会认为它是一个局部变量：这个规则有点类似于 copy-on-write ，不过有点太奇怪了，是局部还是全局变量取决于不同的用法！不知道 3.X 版本是否有改进
     -   支持动态函数调用：
         func = getattr(object, method_name)
         func(argv)
@@ -53,4 +54,13 @@
     -   实现中有太多的 magic number
     -   assert BOOL_EXPRESSION, PROMPT_IF_FAIL
     -   headers.update(dict((k, v) for k, v in req.headers.items() if k not in headers))
-    -   res = possible_value1 or possible_value2: 条件表达式的结果是计算的最后一个条件表达式的值
+    -   res = possible_value1 or possible_value2: 条件表达式的结果是计算的最后一个条件表达式的值: user = user or 'default_user'
+    -   弱类型语言的 IDE 不太容易做，因为变量类型不到运行时是不确定的，OO 也有类似的问题
+    -   builtin function: issubclass  isinstance
+    -   类的成员变量，习惯是：
+        -   私有的成员变量，命名是双下划线作为前缀；不写在类定义中，而是在构造函数中声明和赋初值
+        -   常量是使用单下划线最为前缀命名
+    -   不支持 Keep-alive
+    -   httplib.putheader 在多线程环境下有 race condition 问题啊
+    -   del self._buffer[:]  清空 list 内容
+    -   family = property(lambda self: self._sock.family, doc="the socket family")
